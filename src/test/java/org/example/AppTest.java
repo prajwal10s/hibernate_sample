@@ -30,7 +30,20 @@ public class AppTest extends TestCase{
         }
         assertTrue(true);
     }
+    public void test_hql_fetch_users(){
+        Configuration con = new Configuration().configure("hibernate.cfg.xml");
+        SessionFactory sf = con.buildSessionFactory();
+        try (Session session = sf.openSession()){
+            session.beginTransaction();
+            List<Alien> Aliens = session.createQuery("select a from Alien a", Alien.class).list();
+            Aliens.forEach(System.out::println);
+            session.getTransaction().commit();
 
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
     public static junit.framework.Test suite() {
         return new TestSuite(AppTest.class); // Explicitly add the test case
     }
