@@ -18,7 +18,11 @@ public class App
         Arjun.setColor("Black");
         Configuration con = new Configuration().configure("hibernate.cfg.xml");
         SessionFactory sf = con.buildSessionFactory();
-        Session session = sf.openSession();
-        session.save(Arjun);
+        try (Session session = sf.openSession()){
+            session.beginTransaction();
+            session.persist(Arjun);
+            session.getTransaction().commit();
+
+        }
     }
 }

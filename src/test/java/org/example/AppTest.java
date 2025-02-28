@@ -44,6 +44,52 @@ public class AppTest extends TestCase{
             System.out.println(e);
         }
     }
+
+    public void test_pull_record_for_particular_id(){
+        Configuration con = new Configuration().configure("hibernate.cfg.xml");
+        SessionFactory sf = con.buildSessionFactory();
+        try (Session session = sf.openSession()){
+            session.beginTransaction();
+            List<Alien> Aliens = session.createQuery("select a from Alien a where a.Id=201", Alien.class).list();
+            Aliens.forEach(System.out::println);
+            session.getTransaction().commit();
+
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void test_pull_record_for_particular_name(){
+        Configuration con = new Configuration().configure("hibernate.cfg.xml");
+        SessionFactory sf = con.buildSessionFactory();
+        try (Session session = sf.openSession()){
+            session.beginTransaction();
+            List<Alien> Aliens = session.createQuery("select a from Alien a where a.aname='Prajwal'", Alien.class).list();
+            Aliens.forEach(System.out::println);
+            session.getTransaction().commit();
+
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void test_different_clauses(){
+        Configuration con = new Configuration().configure("hibernate.cfg.xml");
+        SessionFactory sf = con.buildSessionFactory();
+        try (Session session = sf.openSession()){
+            session.beginTransaction();
+            List<Alien> Aliens = session.createQuery("from Alien a ORDER BY a.color ", Alien.class).list();
+            Aliens.forEach(System.out::println);
+            session.getTransaction().commit();
+
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
     public static junit.framework.Test suite() {
         return new TestSuite(AppTest.class); // Explicitly add the test case
     }
