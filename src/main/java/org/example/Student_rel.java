@@ -1,6 +1,7 @@
 package org.example;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
@@ -13,8 +14,8 @@ public class Student_rel {
     private int rollNo;
     private String name;
     private int marks;
-
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
+    //here we are making fetchType as eager to automatically fetch the list of laptops
     private List<Laptop_rel> laptops = new ArrayList<>();
     public int getMarks() {
         return marks;
