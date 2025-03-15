@@ -7,6 +7,7 @@ import junit.framework.TestSuite;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.sql.internal.SQLQueryParser;
 
 import java.util.List;
 import java.util.Random;
@@ -50,6 +51,18 @@ public class StudentHQL_test extends TestCase {
             for(Object[] student:results){
                 System.out.println(student[0]+" "+student[1]+" "+student[2]);
             }
+            int b = 65;
+            Query q3 = session.createQuery("select sum(marks) from Student_HQL where marks>= :b");
+            q3.setParameter("b",b);
+            Long marks = (Long)q3.getSingleResult();
+            System.out.println(marks);
+
+            System.out.println("Below we start using native SQL queries");
+            List<Object[]> sql_res = session.createNativeQuery("Select rollno,marks from Student_HQL where marks>=60").getResultList();
+            sql_res.forEach((Object[] t)->{
+                System.out.println(t[0]+" "+t[1]);
+            });
+
 
         } catch (Exception e) {
             System.out.println(e);
